@@ -29,6 +29,9 @@ public class Voucher {
     @Column(name = "discount_value", nullable = false, precision = 15, scale = 2)
     private BigDecimal discountValue;
 
+    @Column(name = "description", length = 255)
+    private String description;
+
     @Column(name = "min_order_value", precision = 15, scale = 2)
     private BigDecimal minOrderValue = BigDecimal.ZERO;
 
