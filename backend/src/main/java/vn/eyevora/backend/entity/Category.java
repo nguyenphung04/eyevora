@@ -31,12 +31,10 @@ public class Category {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    // 1. Trỏ ngược lại danh mục cha
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parentCategory;
 
-    // 2. Chứa một list các danh mục con của chính nó
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
     private List<Category> subCategories = new ArrayList<>();
 }
