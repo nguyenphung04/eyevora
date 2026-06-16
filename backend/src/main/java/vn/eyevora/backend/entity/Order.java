@@ -86,5 +86,5 @@ public class Order {
 
     public enum PaymentMethod { COD, VNPAY }
     public enum PaymentStatus { PENDING, PAID, FAILED, REFUNDED }
-    public enum OrderStatus { PENDING, CONFIRMED, SHIPPING, COMPLETED, CANCELLED }
+    public enum OrderStatus { PENDING, CONFIRMED, SHIPPING, COMPLETED, CANCELLED, REFUNDED }
 }
