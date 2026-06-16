@@ -29,4 +29,10 @@ public class ChatSession {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+    @PrePersist
+    protected void onCreate() {
+        if (this.sessionToken == null) {
+            this.sessionToken = java.util.UUID.randomUUID().toString();
+        }
+    }
 }
