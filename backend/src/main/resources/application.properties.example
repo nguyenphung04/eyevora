@@ -1,0 +1,40 @@
+server.port=8080
+spring.application.name=eyevora-api
+
+# Database
+spring.datasource.url=jdbc:mysql://localhost:3306/eyevora
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Gemini API
+gemini.api.key=YOUR_GEMINI_API_KEY
+gemini.api.url=YOUR_GEMINI_API_URL
+
+# VNPay
+vnpay.tmnCode=YOUR_VNPAY_TMN_CODE
+vnpay.hashSecret=YOUR_VNPAY_HASH_SECRET
+vnpay.payUrl=YOUR_VNPAY_PAY_URL
+vnpay.returnUrl=YOUR_VNPAY_RETURN_URL
+
+# JWT
+jwt.secretKey=YOUR_JWT_SECRET_KEY
+
+# Cloudinary
+cloudinary.cloud_name=YOUR_CLOUDINARY_CLOUD_NAME
+cloudinary.api_key=YOUR_CLOUDINARY_API_KEY
+cloudinary.api_secret=YOUR_CLOUDINARY_API_SECRET
+
+# Mail
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=YOUR_EMAIL
+spring.mail.password=YOUR_EMAIL_APP_PASSWORD
+
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
