@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer; // Cần import cái này
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,6 +23,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/v1/auth/**").permitAll()
@@ -29,13 +31,16 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.GET,
                                 "/api/v1/products/**",
                                 "/api/v1/categories/**",
-                                "/api/v1/reviews/**"
+                                "/api/v1/reviews/**",
+                                "/api/v1/vouchers", "/api/v1/admin/vouchers/**"
                         ).permitAll()
 
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/orders/guest").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/orders/track").permitAll()
-
-                        .requestMatchers("/api/v1/chat/guest/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/orders/track/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/orders/vnpay-return").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/vouchers/apply").permitAll()
+                        .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/chat/guest/**", "/error").permitAll()
 
                         .anyRequest().authenticated()
                 )

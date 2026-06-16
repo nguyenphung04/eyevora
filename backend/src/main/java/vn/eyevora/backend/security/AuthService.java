@@ -11,6 +11,7 @@ import vn.eyevora.backend.dto.RegisterRequest;
 import vn.eyevora.backend.entity.User;
 import vn.eyevora.backend.repository.UserRepository;
 
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -19,12 +20,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final vn.eyevora.backend.service.OtpService otpService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email đã được sử dụng!");
         }
-
+        if (!otpService.validateOtp(request.getEmail(), request.getOtp())) {
+            throw new RuntimeException("Mã xác nhận OTP không chính xác hoặc đã hết hạn!");
+        }
         if (request.getPhone() != null && userRepository.existsByPhone(request.getPhone())) {
             throw new RuntimeException("Số điện thoại đã được sử dụng!");
         }
@@ -34,7 +38,7 @@ public class AuthService {
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .role(User.Role.USER) // Mặc định tài khoản đăng ký là USER
+                .role(User.Role.USER)
                 .isActive(true)
                 .build();
 
@@ -46,28 +50,33 @@ public class AuthService {
                 .token(jwtToken)
                 .message("Đăng ký thành công!")
                 .userId(savedUser.getId())
+                .email(savedUser.getEmail())
+                .phone(savedUser.getPhone())
                 .fullName(savedUser.getFullName())
                 .role(savedUser.getRole().name())
                 .build();
     }
 
     public AuthResponse authenticate(AuthRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Tài khoản hoặc mật khẩu không chính xác!"));
+        if (!user.getIsActive()) {
+            throw new RuntimeException("Tài khoản của bạn đã bị khóa do vi phạm chính sách của EYEVORA. Vui lòng liên hệ hỗ trợ!");
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
-
         String jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder()
                 .token(jwtToken)
                 .message("Đăng nhập thành công!")
                 .userId(user.getId())
+                .email(user.getEmail())
+                .phone(user.getPhone())
                 .fullName(user.getFullName())
                 .role(user.getRole().name())
                 .build();
