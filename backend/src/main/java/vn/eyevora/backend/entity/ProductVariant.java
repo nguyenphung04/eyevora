@@ -23,8 +23,8 @@ public class ProductVariant {
     @Column(name = "color_name", nullable = false, length = 50)
     private String colorName;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @Column(name = "images", nullable = false, columnDefinition = "TEXT")
+    private String images;
 
     @Column(name = "stock_quantity")
     private Integer stockQuantity = 0;

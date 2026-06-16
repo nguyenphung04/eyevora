@@ -4,10 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
-public class ProductResponse {
+public class ProductDetailResponse {
     private Long id;
     private String name;
     private String categoryName;
@@ -16,7 +17,6 @@ public class ProductResponse {
     private String shape;
     private String brand;
     private String description;
-    private String imageUrl;
-    private Integer totalStock;
     private Boolean isActive;
+    private List<ProductVariantDto> variants;
 }
