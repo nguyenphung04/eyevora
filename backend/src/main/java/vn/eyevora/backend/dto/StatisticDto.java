@@ -1,0 +1,11 @@
+package vn.eyevora.backend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class StatisticDto {
+    private String label;
+    private Object value;
+}
