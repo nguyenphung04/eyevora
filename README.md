@@ -155,35 +155,6 @@ Dự án được phát triển với kiến trúc tách biệt Backend và Fron
 
 ---
 
-# Cấu trúc dự án
-
-eyevora/
-│
-├── backend/
-│   ├── src/main/java
-│   │   ├── controller
-│   │   ├── service
-│   │   ├── repository
-│   │   ├── entity
-│   │   ├── dto
-│   │   └── security
-│   │
-│   └── src/main/resources
-│
-├── frontend/
-│   ├── src
-│   │   ├── api
-│   │   ├── components
-│   │   ├── context
-│   │   ├── pages
-│   │   └── assets
-│   │
-│   └── public
-│
-└── README.md
-
----
-
 # Yêu cầu hệ thống
 
 ## Backend
